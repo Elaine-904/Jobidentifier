@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{Fragment} from "react";
+import {PickJob} from './components/pickjob';
+import {SearchJob} from './components/searchjob';
+import {ShortList} from './components/short-list';
+import {ResetSearch} from './components/reset-search';
+import {Footer} from './components/Footer';
+import DatatablePage from "./components/DataTable";
+
 
 function App() {
+
+  return (  
+    <Fragment>
+      <main>
+        <SearchJob />
+        <NamesContainer />
+        <DatatablePage/>
+      </main>
+      <Footer/>
+    </Fragment>
+    
+  );
+}
+
+function NamesContainer() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      
+        <ShortList />
+        <PickJob />
+        <ResetSearch/>
+    </main>
   );
 }
 

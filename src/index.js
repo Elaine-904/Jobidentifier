@@ -1,17 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+
+import "normalize-css";
+import './styles.css'
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { NamesProvider } from './provider/names';
+import { AppStateProvider } from './provider/app-state';
+import { ChakraProvider } from '@chakra-ui/react'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ChakraProvider>
+      <NamesProvider>
+        <AppStateProvider>
+          <App  />
+        </AppStateProvider>
+      </NamesProvider>
+    </ChakraProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
