@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, Select, Input,Heading,TableContainer } from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Button, Select, Input, Heading, TableContainer } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { useTable, useSortBy, usePagination, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import { useTable, useSortBy, usePagination, useFilters, useGlobalFilter, useAsyncDebounce, render } from 'react-table'
 import makeData from '../data/makedata';
 import matchSorter from 'match-sorter'
+import { names } from '../data';
 
 
 // Define a default UI for filtering
@@ -119,28 +120,40 @@ const DatatablePage = () => {
   const data = React.useMemo(() => makeData(100), [])
   const columns = React.useMemo(
     () => [
-          {
-            Header: 'Job Names',
-            accessor: 'jobname',
-            filter: 'fuzzyText',
+      {
+        Header: 'Job Names',
+        accessor: 'jobname',
+        filter: 'fuzzyText',
 
-          },
-          {
-            Header: 'Create Date',
-            accessor: 'createdate',
-            filter: 'fuzzyText',
-          },
-          {
-            Header: 'Job Status',
-            accessor: 'status',
-            Filter: SelectColumnFilter,
-          },
-        
-      
+      },
+      {
+        Header: 'Create Date',
+        accessor: 'createdate',
+        filter: 'fuzzyText',
+      },
+      {
+        Header: 'Job Status',
+        accessor: 'status',
+        Filter: SelectColumnFilter,
+      },
+      {
+        Header: 'CustomerDetails',
+
+        Cell: ({ value }) => (
+          <div>
+            <Button colorScheme='teal' size='sm' 
+            onClick={() => handleEdit(value)}>View Details</Button>
+          </div>
+        )
+      }
+
     ],
     [],
   )
 
+  function handleEdit() {
+    alert("customer details");
+  }
 
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, state,
     page,
@@ -164,63 +177,57 @@ const DatatablePage = () => {
         initialState: { pageIndex: 2 },
         filterTypes,
       },
-
-
       useFilters,
       useGlobalFilter,
       useSortBy,
       usePagination,
     )
-
   return (
     <>
-    <TableContainer>
-    <Heading as='h4' size='md'>JOB LIST TABLE</Heading>
-      <Table size='sm' variant='striped' colorScheme='facebook' {...getTableProps()}>
-      
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  isNumeric={column.isNumeric}
-                >
-                  {column.render('Header')}
-
-                  <chakra.span pl='4'>
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <TriangleDownIcon aria-label='sorted descending' />
-                      ) : (
-                        <TriangleUpIcon aria-label='sorted ascending' />
-                      )
-                    ) : null}
-                    <div>{column.canFilter ? column.render('Filter') : null}</div>
-                  </chakra.span>
-
-                </Th>
-              ))}
-            </Tr>
-          ))}
-
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-                    {cell.render('Cell')}
-                  </Td>
+      <TableContainer>
+        <Heading as='h4' size='md'>JOB LIST TABLE</Heading>
+        <Table size='sm' variant='striped' colorScheme='facebook' {...getTableProps()}>
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    isNumeric={column.isNumeric}
+                  >
+                    {column.render('Header')}
+                    <chakra.span pl='4'>
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <TriangleDownIcon aria-label='sorted descending' />
+                        ) : (
+                          <TriangleUpIcon aria-label='sorted ascending' />
+                        )
+                      ) : null}
+                      <div>{column.canFilter ? column.render('Filter') : null}</div>
+                    </chakra.span>
+                  </Th>
                 ))}
               </Tr>
-            )
-          })}
+            ))}
 
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <Tr {...row.getRowProps()}  >
+                  {row.cells.map((cell) => (
+                    <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                      {cell.render('Cell')}
+                    </Td>
+                  ))}
+                </Tr>
+              )
+            })}
+
+          </Tbody>
+        </Table>
       </TableContainer>
       <br />
       <div className="pagination">

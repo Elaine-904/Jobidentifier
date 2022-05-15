@@ -1,10 +1,11 @@
-import React,{Fragment} from "react";
+import React,{Fragment, Route} from "react";
 import {PickJob} from './components/pickjob';
 import {SearchJob} from './components/searchjob';
 import {ShortList} from './components/short-list';
 import {ResetSearch} from './components/reset-search';
 import {Footer} from './components/Footer';
 import DatatablePage from "./components/DataTable";
+
 
 
 function App() {

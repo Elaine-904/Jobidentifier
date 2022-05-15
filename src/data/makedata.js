@@ -16,6 +16,10 @@ const job = ["Data Analyst", "Data Information Architect"
   "BI Developer", "Database Manager", "Security Engineers"]
 
 
+const customerdetails = [
+  "a",'b','c'
+]
+
 const newPerson = () => {
   const statusChance = Math.random()
   
